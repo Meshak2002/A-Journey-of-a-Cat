@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CatAnimInstance.h"
 #include "GameFramework/Character.h"
 #include "StaminaWidget.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "CatCharacter.generated.h"
 
 UCLASS()
@@ -17,7 +19,22 @@ public:
 	ACatCharacter();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USpringArmComponent* SpringArmm;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UChildActorComponent* burstEffect;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USkeletalMeshComponent* skeletalMesh;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* bubble;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* montageJump;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UCatAnimInstance* animInstance;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bCanFly;
@@ -32,10 +49,27 @@ public:
 	float catBreathe;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float SineAmplitude = 20.0f; // Adjust for larger wavy motion
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float SineFrequency = 2.0f; // Increase for faster oscillation
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float walkTargetArmLength;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float flyTargetArmLength;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaminaWidget* staminaWidget;
 
 	bool isOnGround();
 
+	bool windEffect;
+	float windForce;
+	FVector windDirection;
+
+	FVector spawnPoint;
 
 protected:
 	// Called when the game starts or when spawned
@@ -44,7 +78,18 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	FTimerHandle TimerHandle; 
+	UFUNCTION(BlueprintCallable)
+	void TimerFunction();
 
+	UFUNCTION(BlueprintCallable)
+	void TimerFunction2();
+
+	UFUNCTION(BlueprintCallable)
+	void BurstBubble();
+	
+	UFUNCTION(BlueprintCallable)
+	void Respawn();
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 private:
