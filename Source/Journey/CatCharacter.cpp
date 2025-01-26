@@ -44,13 +44,13 @@ void ACatCharacter::BeginPlay()
 void ACatCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if(!animInstance || !SpringArmm) return;
+	if(!animInstance || !springArmm) return;
 	animInstance->isFlying = bCanFly;
 
 	
 	if (catBreathe < breatheRange && bCanFly)  //FLY & Bubble blow
 	{
-		SpringArmm->TargetArmLength = FMath::Lerp(SpringArmm->TargetArmLength , flyTargetArmLength, 1.5f*DeltaTime);
+		springArmm->TargetArmLength = FMath::Lerp(springArmm->TargetArmLength , flyTargetArmLength, 1.5f*DeltaTime);
 		GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 		catBreathe += DeltaTime;
 		staminaWidget->SetProgressValue(1-catBreathe/3);
@@ -85,7 +85,7 @@ void ACatCharacter::Tick(float DeltaTime)
 		else    //Reset to Walk
 		{
 			GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-			SpringArmm->TargetArmLength = FMath::Lerp(SpringArmm->TargetArmLength , walkTargetArmLength, 1.5f*DeltaTime);
+			springArmm->TargetArmLength = FMath::Lerp(springArmm->TargetArmLength , walkTargetArmLength, 1.5f*DeltaTime);
 			if(catBreathe>0)
 			{
 				catBreathe -= DeltaTime;

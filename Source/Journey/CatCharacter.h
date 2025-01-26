@@ -19,7 +19,7 @@ public:
 	ACatCharacter();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	USpringArmComponent* SpringArmm;
+	USpringArmComponent* springArmm;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UChildActorComponent* burstEffect;
